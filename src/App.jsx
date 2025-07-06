@@ -5,6 +5,10 @@ import Card from './card'
 function App() {
 
   const [pokemon, setPokemon] = useState([]);
+  const [clickedIds, setClickedIds] = useState([]);
+
+  const [currentScore, setCurrentScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
 
   useEffect(()=> {
     async function getData() {
@@ -23,7 +27,17 @@ function App() {
 
   const cards = pokemon.map(pokemon => {
     return(
-      <Card key={pokemon} pokemon={pokemon}></Card>
+      <Card onClick={()=>{
+        if(!clickedIds.includes(pokemon.name)){
+          setCurrentScore(currentScore+1)
+          setClickedIds([...clickedIds, pokemon.name])
+        }else{
+          console.log("loose")
+          setClickedIds([])
+          if(currentScore>highScore) setHighScore(currentScore)
+          setCurrentScore(0)
+        }
+      }} key={pokemon.name} pokemon={pokemon}></Card>
     )
   })
 
@@ -31,8 +45,8 @@ function App() {
     <>
     <nav>
       <h2>PokeMemory</h2>
-      <p>Current Score: </p>
-      <p>High Score: </p>
+      <p>Current Score: {currentScore}</p>
+      <p>High Score: {highScore}</p>
     </nav>
       <div className='gamewrapper'>
           {cards}

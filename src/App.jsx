@@ -26,17 +26,7 @@ function App() {
 
   const cards = pokemon.map(pok => {
     return(
-      <Card onClick={()=>{
-        if(!clickedIds.includes(pok.name)){
-          setCurrentScore(currentScore+1)
-          setClickedIds([...clickedIds, pok.name])
-        }else{
-          setClickedIds([])
-          if(currentScore>highScore) setHighScore(currentScore)
-          setCurrentScore(0)
-        }
-        shuffle(pokemon)
-      }} key={pokemon.name} pokemon={pok}></Card>
+      <Card onClick={()=>handleClick(pok)} key={pokemon.name} pokemon={pok}></Card>
     )
   })
 
@@ -55,6 +45,18 @@ function App() {
       array[randomIndex], array[currentIndex]];
   }
 }
+
+function handleClick(pok){
+   if(!clickedIds.includes(pok.name)){
+          setCurrentScore(currentScore+1)
+          setClickedIds([...clickedIds, pok.name])
+        }else{
+          setClickedIds([])
+          if(currentScore>highScore) setHighScore(currentScore)
+          setCurrentScore(0)
+        }
+        shuffle(pokemon)
+      }
 
   return (
     <>

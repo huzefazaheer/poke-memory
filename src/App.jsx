@@ -24,22 +24,37 @@ function App() {
     getData()
   }, [])
 
-
-  const cards = pokemon.map(pokemon => {
+  const cards = pokemon.map(pok => {
     return(
       <Card onClick={()=>{
-        if(!clickedIds.includes(pokemon.name)){
+        if(!clickedIds.includes(pok.name)){
           setCurrentScore(currentScore+1)
-          setClickedIds([...clickedIds, pokemon.name])
+          setClickedIds([...clickedIds, pok.name])
         }else{
-          console.log("loose")
           setClickedIds([])
           if(currentScore>highScore) setHighScore(currentScore)
           setCurrentScore(0)
         }
-      }} key={pokemon.name} pokemon={pokemon}></Card>
+        shuffle(pokemon)
+      }} key={pokemon.name} pokemon={pok}></Card>
     )
   })
+
+  function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
 
   return (
     <>
